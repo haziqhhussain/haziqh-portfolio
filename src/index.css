@@ -29,7 +29,7 @@
   --container: 1120px;
 }
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
@@ -83,6 +83,39 @@ code {
 .muted { color: var(--muted); }
 .hint { color: var(--muted-2); font-size: 0.85rem; margin-top: 14px; }
 .hint.center, .center { text-align: center; }
+
+/* ---------- Responsive safety (mobile overflow prevention) ----------
+   Root-cause guards — page-level overflow-x on body stays only as a
+   backstop. Grid/flex children may shrink below their intrinsic
+   content width (e.g. the hero's pre-formatted code block); long
+   strings (emails, URLs, mono filenames) may break anywhere. */
+.hero-grid > *,
+.about-grid > *,
+.education-grid > *,
+.skills-grid > *,
+.projects-grid > *,
+.github-grid > *,
+.contact-grid > *,
+.cert-grid > *,
+.form-row > * {
+  min-width: 0;
+}
+.skill-card-head > div,
+.profile-block > div,
+.repo-top,
+.contact-form label {
+  min-width: 0;
+}
+img, svg, pre, .code-block {
+  max-width: 100%;
+}
+.form-note,
+.hint,
+.project-note,
+.repo-name,
+.footer-note {
+  overflow-wrap: anywhere;
+}
 
 /* ---------- Reveal animation (subtle) ---------- */
 .reveal {
